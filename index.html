@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedidos de canciones | MiMusicmx</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #101522;
+  color: white;
+}
+
+.contenedor {
+  max-width: 600px;
+  margin: auto;
+  padding: 25px;
+  background: #1c2638;
+  border-radius: 16px;
+  box-shadow: 0 5px 25px #0008;
+}
+
+h1 {
+  text-align: center;
+  color: #ffd54a;
+}
+
+.subtitulo {
+  text-align: center;
+  color: #ccc;
+}
+
+.precio {
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  color: #ffd54a;
+  margin: 20px 0;
+}
+
+label {
+  display: block;
+  margin-top: 16px;
+  font-weight: bold;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 13px;
+  margin-top: 7px;
+  border: 1px solid #526078;
+  border-radius: 8px;
+  background: #f7f7f7;
+  color: #111;
+  font-size: 16px;
+}
+
+textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.ejemplo {
+  color: #cbd3df;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 22px;
+  border: none;
+  border-radius: 9px;
+  background: #ffd54a;
+  color: #111;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.aviso {
+  text-align: center;
+  font-size: 13px;
+  color: #cbd3df;
+  margin-top: 15px;
+}
+
+#mensaje {
+  text-align: center;
+  margin-top: 15px;
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+<h1>MiMusicmx</h1>
+<p class="subtitulo">Tu historia convertida en canción</p>
+
+<div class="precio">$60 MXN</div>
+
+<form id="pedidoForm">
+
+<label>Nombre del cliente</label>
+<input type="text" id="nombre" required
+placeholder="Escribe tu nombre">
+
+<label>Número de WhatsApp</label>
+<input type="tel" id="whatsapp" required
+placeholder="Ej. 3312345678">
+
+<label>Cuéntanos tu historia</label>
+<textarea id="historia" required
+placeholder="Escribe aquí tu historia, recuerdos, nombres y sentimientos..."></textarea>
+
+<div class="ejemplo">
+<strong>Ejemplo:</strong><br>
+Elizabeth, desde el día que te conocí cambiaste mi vida.
+Recuerdo aquella tarde cuando nos miramos por primera vez.
+Con el paso del tiempo vivimos momentos hermosos,
+superamos dificultades y construimos recuerdos que
+nunca voy a olvidar. Quiero dedicarte una canción
+para demostrarte cuánto significas para mí.
+</div>
+
+<label>¿Qué género musical deseas?</label>
+<select id="melodia" required>
+<option value="">Selecciona un género</option>
+<option>Ranchera</option>
+<option>Cumbia</option>
+<option>Zapateado</option>
+<option>Merengue</option>
+<option>Salsa</option>
+<option>Huapango</option>
+<option>Quebradita</option>
+<option>Corrido</option>
+<option>Norteño</option>
+<option>Sierreño</option>
+<option>Hip hop</option>
+<option>Rap Mexa</option>
+<option>Corrido tumbado</option>
+<option>Reggaetón</option>
+<option>Cumbia sonidera</option>
+<option>Cumbia estilo Sonora</option>
+<option>Cumbia grupera</option>
+<option>Cumbia callejera</option>
+<option>Jazz</option>
+<option>Reggae</option>
+<option>Country</option>
+<option>Rock and roll</option>
+<option>Rock pop</option>
+</select>
+
+<label>¿Qué ritmo prefieres?</label>
+<select id="ritmo" required>
+<option value="">Selecciona el ritmo</option>
+<option>Lento</option>
+<option>Rápido</option>
+<option>Suave</option>
+<option>Bailable</option>
+</select>
+
+<label>¿Qué estilo tendrá tu canción?</label>
+<select id="estilo" required>
+<option value="">Selecciona el estilo</option>
+<option>Desamor</option>
+<option>Dedicación</option>
+</select>
+
+<button type="submit" id="boton">
+ENVIAR MI PEDIDO
+</button>
+
+</form>
+
+<div id="mensaje"></div>
+
+<p class="aviso">
+Al enviar tu pedido, tus datos se registrarán para preparar
+tu canción personalizada.
+</p>
+
+</div>
+
+<script>
+const URL_GOOGLE =
+"https://script.google.com/macros/s/AKfycbx1yQHeVzJP4n4vEMeoNbAVL27BVMsIZykbRMg51PwtUJB9zQklzRCi5Vu74EIrZITp/exec";
+
+document.getElementById("pedidoForm")
+.addEventListener("submit", async function(event) {
+
+  event.preventDefault();
+
+  const boton = document.getElementById("boton");
+  const mensaje = document.getElementById("mensaje");
+
+  const datos = {
+    nombre: document.getElementById("nombre").value.trim(),
+    whatsapp: document.getElementById("whatsapp").value.trim(),
+    historia: document.getElementById("historia").value.trim(),
+    melodia: document.getElementById("melodia").value,
+    ritmo: document.getElementById("ritmo").value,
+    estilo: document.getElementById("estilo").value,
+    precio: 60
+  };
+
+  if (!datos.nombre || !datos.whatsapp || !datos.historia ||
+      !datos.melodia || !datos.ritmo || !datos.estilo) {
+    mensaje.textContent = "Completa todos los campos.";
+    return;
+  }
+
+  boton.disabled = true;
+  boton.textContent = "ENVIANDO...";
+  mensaje.textContent = "Enviando tu pedido...";
+
+  try {
+    await fetch(URL_GOOGLE, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify(datos)
+    });
+
+    mensaje.textContent =
+      "Pedido enviado. Verifica que aparezca en Google Sheets.";
+
+    document.getElementById("pedidoForm").reset();
+
+  } catch (error) {
+    mensaje.textContent =
+      "No se pudo enviar. Revisa tu conexión e inténtalo nuevamente.";
+  }
+
+  boton.disabled = false;
+  boton.textContent = "ENVIAR MI PEDIDO";
+
+});
+</script>
+
+</body>
+</html>
